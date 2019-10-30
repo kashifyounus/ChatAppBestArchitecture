@@ -1,0 +1,104 @@
+﻿@model ChatMe.Web.Models.UserProfileViewModel
+
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Users/_Layout.cshtml";
+}
+
+@section Scripts {
+    <script src="~/node_modules/bootstrap-notify/bootstrap-notify.js"></script>
+    <script src="~/Client/lib/js/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/node_modules/angular/angular.js"></script>
+    <script src="~/Client/dist/userProfile.js"></script>
+
+    <script>
+        angular.module("postsApp")
+            .value('apiPath', '/api/posts/')
+            .value('userInfo', {
+                id: '@Model.Id',
+                isOwner: @Model.IsOwner.ToString().ToLower(),
+            });
+    </script>
+}
+
+<!-- Left Column -->
+<div class="w3-col m3">
+    <!-- Profile -->
+    <div class="w3-card-2 w3-round w3-white">
+        <div class="w3-container">
+            @if (Model.DisplayName != Model.UserName) {
+                <h4 class="w3-center">
+                    @Model.DisplayName
+                    
+                </h4>
+                <h6 class="w3-center">@Model.UserName</h6>
+            } else {
+                <h4 class="w3-center">
+                    @Model.UserName
+                </h4>
+            }
+
+            @if (Model.IsOnline) {
+                <h6 class="w3-center online-indicator">Online</h6>
+            }
+
+            <p class="w3-center w3-row">
+                <img src="@Url.RouteUrl("Avatar", new { userId = Model.Id })" class="w3-col" alt="Avatar" style="width:30px;height:30px;">
+            </p>
+            @if (!Model.IsOwner) {
+            <div class="w3-row-padding">
+                <div class="w3-col s6">
+                    <a href="@Url.Action("openOrCreateDialog", "dialogs", new { userId = Model.Id })" class="w3-btn w3-blue">
+                        Send message <i class="fa fa-envelope"></i>
+                    </a>
+                </div>
+                <div class="w3-col s6">
+                    <span id="follow-button-form">
+                        @{ 
+                            var followBtnClass = Model.IsFollowing ? "following w3-red" : "w3-blue";
+                            var followBtnContent = Model.IsFollowing ?
+                                Html.Raw("Unfollow <i class=\"fa fa-eye - slash\"></i>") :
+                                Html.Raw("Follow <i class=\"fa fa - eye\"></i>");
+                        }
+
+                        <button type="submit" class="w3-btn follow-btn @followBtnClass">
+                            @followBtnContent
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+                            }
+            <hr>
+            <p><i class="fa fa-envelope-o fa-fw w3-margin-right w3-text-theme"></i> @Html.DisplayFor(model => model.Email)</p>
+            @if (Model.Phone != null) {
+                <p><i class="fa fa-phone fa-fw w3-margin-right w3-text-theme"></i> @Html.DisplayFor(model => model.Phone)</p>
+            }
+            @if (Model.Skype != null) {
+                <p><i class="fa fa-skype fa-fw w3-margin-right w3-text-theme"></i> @Html.DisplayFor(model => model.Skype)</p>
+            }
+        </div>
+    </div>
+    <br>
+
+    @if (Model.AboutMe != null) {
+    <!-- Alert Box -->
+    <div class="w3-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+        <p><strong>About Me</strong></p>
+        <p>@Html.DisplayFor(model => model.AboutMe)</p>
+    </div>
+    }
+
+    <!-- End Left Column -->
+</div>
+
+<!-- Middle Column -->
+<div class="w3-col m7">
+    <div ng-app="postsApp" id="postsApp">
+        <app></app>
+    </div>
+</div>
+
+<!-- Right Column -->
+<div class="w3-col m2">
+</div>

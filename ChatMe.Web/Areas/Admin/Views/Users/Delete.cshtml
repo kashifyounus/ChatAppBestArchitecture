@@ -1,0 +1,83 @@
+﻿@model ChatMe.Web.Areas.Admin.Models.UserViewModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete user @Model.UserName?</h3>
+<div>
+    <div class="row">
+        <div class="col-sm-3">
+            <img src="@Model.AvatarPath" class="img-responsive user-avatar-preview" />
+            <hr />
+        </div>
+        <div class="col-sm-9">
+            <dl class="dl-horizontal">
+                <dt>Id</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Id)
+                </dd>
+
+                <dt>User name</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+
+                <dt>First name</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+
+                <dt>Last name</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+
+                <dt>Email</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+                <dt>Registration date</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RegistrationDate)
+                </dd>
+
+                <dt>Phone</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+
+                <dt>Skype</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Skype)
+                </dd>
+
+                <dt>About me</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AboutMe)
+                </dd>
+                <dt>Roles</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RolesString)
+                </dd>
+                <dt>First name</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

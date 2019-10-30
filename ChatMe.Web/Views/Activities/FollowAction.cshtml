@@ -1,0 +1,15 @@
+﻿@model ChatMe.Web.Models.FollowingLinkViewModel
+
+@using (Ajax.BeginForm("FollowAction", "Activities", new AjaxOptions { UpdateTargetId = "follow-button-form" })) {
+    @Html.HiddenFor(m => m.UserId)
+    @Html.HiddenFor(m => m.IsFollowing)
+    if (!Model.IsFollowing) {
+        <button type="submit" class="w3-btn w3-blue">
+            Follow <i class="fa fa-eye"></i>
+        </button>
+    } else {
+        <button type="submit" class="w3-btn w3-red">
+            Unfollow <i class="fa fa-eye-slash"></i>
+        </button>
+    }
+}
